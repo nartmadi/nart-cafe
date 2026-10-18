@@ -1,0 +1,16 @@
+# Local and OS files
+.DS_Store
+
+# Dependencies and generated output
+node_modules/
+coverage/
+dist/
+build/
+.next/
+test-results/
+
+# Local environment and deployment state
+.env
+.env.*
+.vercel/
+.wrangler/
