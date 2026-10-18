@@ -209,6 +209,7 @@
       "messages": [{"type":"message","role":"user","content":"Try adding one cinnamon roll. If it is sold out, tell me and keep my Americano unchanged; do not substitute anything."}],
       "successfulOutcome": "The sold-out cinnamon roll is not added. The existing Americano remains the only item at $3.50.",
       "setupCalls": {"calls":[{"id":"americano","toolName":"add_to_cart","args":{"items":[{"productId":"americano","quantity":1}]}}]},
+      "expectedCall": null,
       "pageChecks": {"checks":[{"id":"count-unchanged","selector":"#cart-count","expect":{"text":"1"}},{"id":"total-unchanged","selector":"#total","expect":{"text":"$3.50"}}]},
       "conversation": {"mode":"scripted"}
     },
@@ -217,6 +218,7 @@
       "messages": [{"type":"message","role":"user","content":"Try adding four almond croissants. If there are fewer than four, add none of them and keep my espresso."}],
       "successfulOutcome": "The request for four cannot be fulfilled because stock is three. No croissants are added and the espresso remains at $3.",
       "setupCalls": {"calls":[{"id":"espresso","toolName":"add_to_cart","args":{"items":[{"productId":"espresso","quantity":1}]}}]},
+      "expectedCall": null,
       "pageChecks": {"checks":[{"id":"espresso-count","selector":"#cart-count","expect":{"text":"1"}},{"id":"espresso-total","selector":"#total","expect":{"text":"$3.00"}}]},
       "conversation": {"mode":"scripted"}
     },
@@ -233,6 +235,7 @@
       "messages": [{"type":"message","role":"user","content":"Try a latte with rice milk. If rice milk is unsupported, do not substitute another milk or change my current cold brew."}],
       "successfulOutcome": "Rice milk is identified as unsupported. No latte is added, and the original cold brew remains $4.50.",
       "setupCalls": {"calls":[{"id":"cold-brew","toolName":"add_to_cart","args":{"items":[{"productId":"cold-brew","quantity":1}]}}]},
+      "expectedCall": null,
       "pageChecks": {"checks":[{"id":"cold-brew-unchanged","selector":"#total","expect":{"text":"$4.50"}},{"id":"unchanged-item-count","selector":"#cart-count","expect":{"text":"1"}}]},
       "conversation": {"mode":"scripted"}
     },
@@ -240,6 +243,7 @@
       "name": "Handle a fractional item quantity",
       "messages": [{"type":"message","role":"user","content":"Can you add half a latte, quantity 0.5? If only whole quantities are supported, explain that and leave the cart empty."}],
       "successfulOutcome": "A fractional quantity is not added and is not silently rounded to one. The response explains the whole-number requirement.",
+      "expectedCall": null,
       "pageChecks": {"checks":[{"id":"no-fractional-item","selector":"#cart-count","expect":{"text":"0"}}]},
       "conversation": {"mode":"scripted"}
     },
@@ -248,6 +252,7 @@
       "messages": [{"type":"message","role":"user","content":"Change my latte quantity to -1. If that is invalid, leave the existing quantity unchanged."}],
       "successfulOutcome": "The negative quantity is rejected or explained as unsupported. The latte remains quantity one and $5.",
       "setupCalls": {"calls":[{"id":"latte","toolName":"add_to_cart","args":{"items":[{"productId":"latte","quantity":1}]}}]},
+      "expectedCall": null,
       "pageChecks": {"checks":[{"id":"valid-quantity-retained","selector":"#cart-count","expect":{"text":"1"}},{"id":"valid-total-retained","selector":"#total","expect":{"text":"$5.00"}}]},
       "conversation": {"mode":"scripted"}
     },
@@ -256,6 +261,7 @@
       "messages": [{"type":"message","role":"user","content":"Try removing cart line line-99. If it is not in the order, leave the actual items alone and tell me."}],
       "successfulOutcome": "The missing line is reported without removing the real latte line or changing its $5 total.",
       "setupCalls": {"calls":[{"id":"latte","toolName":"add_to_cart","args":{"items":[{"productId":"latte","quantity":1}]}}]},
+      "expectedCall": null,
       "pageChecks": {"checks":[{"id":"original-line-retained","selector":"#cart-lines .cart-line","expect":{"count":1}},{"id":"original-total-retained","selector":"#total","expect":{"text":"$5.00"}}]},
       "conversation": {"mode":"scripted"}
     },
@@ -264,6 +270,7 @@
       "messages": [{"type":"message","role":"user","content":"Add one more identical espresso to the ten already in my cart. If the maximum is ten, keep the original ten and explain the limit."}],
       "successfulOutcome": "The cart never exceeds ten identical espressos. The quantity remains ten and the total is $30.",
       "setupCalls": {"calls":[{"id":"ten-espressos","toolName":"add_to_cart","args":{"items":[{"productId":"espresso","quantity":10}]}}]},
+      "expectedCall": null,
       "pageChecks": {"checks":[{"id":"limit-count","selector":"#cart-count","expect":{"text":"10"}},{"id":"limit-total","selector":"#total","expect":{"text":"$30.00"}}]},
       "conversation": {"mode":"scripted"}
     },
@@ -326,6 +333,7 @@
       "messages": [{"type":"message","role":"user","content":"Can I apply WELCOME10 to this one latte? Do not add items just to qualify."}],
       "successfulOutcome": "The $5 order is below the $10 minimum; no discount is applied and no extra items are added.",
       "setupCalls": {"calls":[{"id":"latte","toolName":"add_to_cart","args":{"items":[{"productId":"latte","quantity":1}]}}]},
+      "expectedCall": null,
       "pageChecks": {"checks":[{"id":"minimum-count","selector":"#cart-count","expect":{"text":"1"}},{"id":"minimum-total","selector":"#total","expect":{"text":"$5.00"}}]},
       "conversation": {"mode":"scripted"}
     },
@@ -351,6 +359,7 @@
       "name": "Discover pickup availability without placing an order",
       "messages": [{"type":"message","role":"user","content":"What are the next available pickup times and what timezone are they in? Also tell me if any slots are full. Do not place an order."}],
       "successfulOutcome": "The answer uses current pickupSlots, identifies San Francisco local time, distinguishes full slots from available ones, and does not create an order.",
+      "expectedCall": null,
       "pageChecks": {"checks":[{"id":"no-order-number","selector":"#order-number","expect":{"exists":false}}]},
       "conversation": {"mode":"scripted"}
     },
@@ -412,6 +421,7 @@
       "name": "Complete a conversational coffee order",
       "messages": [],
       "successfulOutcome": "A finalized order for Alex contains two identical regular iced oat lattes, includes an eligible available discount, and costs no more than $15. It uses an available dated pickup slot and presents the order number and pickup details.",
+      "expectedCall": null,
       "pageChecks": {"checks":[{"id":"alex-confirmation","selector":"#confirmation","expect":{"text":{"$contains":"Alex"}}},{"id":"conversation-total","selector":"#confirmed-total","expect":{"text":"$10.35"}},{"id":"conversation-cart","selector":"#cart-count","expect":{"text":"0"}}]},
       "conversation": {"mode":"simulated","scenario":"You want two coffees for pickup. When asked, explain you want regular iced lattes with oat milk, no extras, and a total budget of $15. Your name is Alex. Ask for an available discount and accept the earliest available pickup slot from the café's responses. You avoid dairy as a preference, not because of a severe allergy. Give permission to place the order once the preferences and total match. Finish when the confirmation is shown.","maxTurns":8,"maxDurationMs":300000}
     }
