@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="description" content="Coffee, pastries, and light bites. Order ahead at Nart Cafe and choose a pickup time.">
+  <title>Nart Cafe — Order for pickup</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Insert the supplied synchronous Senro snippet here, before app.js. -->
+</head>
+<body>
+  <a class="skip-link" href="#menu-heading">Skip to menu</a>
+  <header class="site-header">
+    <div class="shell header-content">
+      <a class="brand" href="./">Nart Cafe</a>
+      <div class="header-right"><span class="hours">Open 24/7 <span>San Francisco, California</span></span></div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <div id="shop" class="shop-layout" aria-busy="true">
+      <section class="menu-column" aria-label="Menu">
+        <form id="search-form" class="search-bar" role="search">
+          <label class="search-field"><span class="sr-only">Search menu</span><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><input id="query" type="search" placeholder="Search coffee, pastries, and more" autocomplete="off"></label>
+          <label class="dietary-field"><span class="sr-only">Dietary preference</span><select id="dietary"><option value="">All preferences</option><option value="vegan">Vegan</option><option value="dairy-free">Dairy-free</option><option value="gluten-free">Gluten-free</option></select></label>
+          <button class="sr-only" type="submit">Search</button>
+        </form>
+        <div id="categories" class="categories" role="group" aria-label="Menu category"></div>
+        <div class="list-heading"><h2 id="category-heading">The menu</h2><span id="result-count" class="muted"></span></div>
+        <div id="products" class="product-grid"></div>
+        <div id="empty-results" class="empty-results" hidden><h3>No matches</h3><p>Try another search or preference.</p><button id="clear-search" class="button secondary" type="button">Clear filters</button></div>
+      </section>
+
+      <aside id="order" class="order-panel" aria-labelledby="order-heading">
+        <div class="order-heading"><h2 id="order-heading" tabindex="-1">Your order</h2><span class="muted">Pickup</span><span id="cart-count" class="sr-only" aria-live="polite">0</span></div>
+        <div id="cart-lines"></div>
+        <div id="cart-empty" class="cart-empty"><svg aria-hidden="true" viewBox="0 0 40 40"><path d="M10 14h20l2 21H8l2-21Z"/><path d="M15 15v-5a5 5 0 0 1 10 0v5"/></svg><p>Something good starts here.</p><span>Add a drink or a bite from the menu.</span></div>
+        <div id="cart-summary" hidden>
+          <dl class="totals"><div><dt>Subtotal</dt><dd id="subtotal">$0.00</dd></div><div id="discount-row" hidden><dt id="discount-label">Discount</dt><dd id="discount-total">$0.00</dd></div><div class="grand-total"><dt>Total</dt><dd id="total">$0.00</dd></div></dl>
+          <p class="tax-note">Tax included · Pay at pickup</p>
+          <form id="discount-form" class="discount-form"><label class="sr-only" for="discount-code">Discount code</label><input id="discount-code" placeholder="Discount code" maxlength="30" autocomplete="off"><button class="button secondary" type="submit">Apply</button></form>
+          <p id="cart-message" class="inline-message" aria-live="polite"></p>
+          <form id="pickup-form" class="pickup-form">
+            <label class="field" for="customer-name">Name for pickup<input id="customer-name" name="customerName" autocomplete="given-name" maxlength="80" required placeholder="Your name"></label>
+            <label class="field" for="pickup-slot">Pickup time <span class="field-hint">San Francisco time</span><select id="pickup-slot" name="slotId" required><option value="">Choose a time</option></select></label>
+            <button id="schedule-button" class="button primary" type="submit">Place pickup order <span aria-hidden="true">→</span></button>
+            <p id="pickup-message" class="inline-message" role="alert"></p>
+          </form>
+        </div>
+        <details class="offers" open><summary>Available offers</summary><div id="offers"></div></details>
+        <section id="confirmation" class="confirmation" aria-labelledby="confirmation-heading" hidden></section>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="shell footer">Nart Cafe</footer>
+  <a id="mobile-order" class="mobile-order" href="#order" hidden><span>View your order <span id="mobile-count"></span></span><strong id="mobile-total"></strong></a>
+
+  <dialog id="product-dialog" aria-labelledby="product-title">
+    <div class="dialog-heading"><span class="eyebrow" id="product-category"></span><button id="close-product" class="icon-button" type="button" aria-label="Close product details">×</button></div>
+    <h2 id="product-title"></h2><p id="product-description" class="muted"></p>
+    <form id="product-form">
+      <div id="product-options" class="option-grid"></div>
+      <details class="ingredients" open><summary>Ingredients & allergens</summary><div id="product-ingredients"></div></details>
+      <div class="product-footer"><label class="field quantity-field" for="product-quantity">Quantity<input id="product-quantity" type="number" min="1" max="10" value="1" required></label><button id="add-product" class="button primary" type="submit">Add to order <span id="product-price"></span></button></div>
+      <p id="product-message" class="inline-message" role="alert"></p>
+    </form>
+  </dialog>
+  <noscript><p class="shell">Enable JavaScript to browse the menu and place a pickup order.</p></noscript>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+{
+  "currency": "USD",
+  "timezone": "America/Los_Angeles",
+  "hours": { "open": 0, "close": 24, "intervalMinutes": 30, "leadMinutes": 20, "daysAhead": 3, "slotCapacity": 6, "fullTimes": ["15:30"] },
+  "allergens": ["milk", "egg", "wheat", "soy", "peanuts", "tree nuts", "sesame", "fish", "shellfish"],
+  "categories": [
+    { "id": "coffee", "name": "Coffee" },
+    { "id": "tea", "name": "Tea & matcha" },
+    { "id": "cold-drinks", "name": "Cold drinks" },
+    { "id": "bakery", "name": "Bakery" },
+    { "id": "food", "name": "Light bites" }
+  ],
+  "optionGroups": {
+    "size": {
+      "regular": { "label": "Regular", "priceCents": 0, "ingredients": [], "allergens": [] },
+      "large": { "label": "Large", "priceCents": 100, "ingredients": [], "allergens": [] }
+    },
+    "temperature": {
+      "hot": { "label": "Hot", "priceCents": 0, "ingredients": [], "allergens": [] },
+      "iced": { "label": "Iced", "priceCents": 0, "ingredients": ["ice"], "allergens": [] }
+    },
+    "milk": {
+      "whole": { "label": "Whole milk", "priceCents": 0, "ingredients": ["whole milk"], "allergens": ["milk"], "vegan": false },
+      "oat": { "label": "Oat milk", "priceCents": 75, "ingredients": ["certified gluten-free oat milk"], "allergens": [] },
+      "almond": { "label": "Almond milk", "priceCents": 75, "ingredients": ["almond milk"], "allergens": ["tree nuts"] },
+      "soy": { "label": "Soy milk", "priceCents": 50, "ingredients": ["soy milk"], "allergens": ["soy"] }
+    },
+    "extra": {
+      "none": { "label": "No extra", "priceCents": 0, "ingredients": [], "allergens": [] },
+      "extra-shot": { "label": "Extra espresso shot", "priceCents": 100, "ingredients": ["espresso"], "allergens": [] },
+      "vanilla": { "label": "Vanilla syrup", "priceCents": 50, "ingredients": ["vanilla syrup"], "allergens": [] }
+    }
+  },
+  "profiles": {
+    "espresso": { "size": ["regular"], "temperature": ["hot"], "extra": ["none", "extra-shot"] },
+    "black-coffee": { "size": ["regular", "large"], "temperature": ["hot", "iced"], "extra": ["none", "extra-shot", "vanilla"] },
+    "milk-coffee": { "size": ["regular", "large"], "temperature": ["hot", "iced"], "milk": ["whole", "oat", "almond", "soy"], "extra": ["none", "extra-shot", "vanilla"] },
+    "cold-coffee": { "size": ["regular", "large"], "temperature": ["iced"], "extra": ["none", "vanilla"] },
+    "plain-tea": { "size": ["regular", "large"], "temperature": ["hot", "iced"] },
+    "milk-tea": { "size": ["regular", "large"], "temperature": ["hot", "iced"], "milk": ["whole", "oat", "almond", "soy"] },
+    "cold-drink": { "size": ["regular", "large"], "temperature": ["iced"] },
+    "cold-milk": { "size": ["regular", "large"], "temperature": ["iced"], "milk": ["whole", "oat", "almond", "soy"] },
+    "food": {}
+  },
+  "promotions": [
+    { "code": "WELCOME10", "description": "10% off orders of $10 or more", "type": "percent", "value": 10, "minimumCents": 1000, "minimumItems": 1, "status": "active" },
+    { "code": "PAIR2", "description": "$2 off two or more items, on orders of $15 or more", "type": "fixed", "value": 200, "minimumCents": 1500, "minimumItems": 2, "status": "active" },
+    { "code": "EARLY20", "description": "Previous opening-week offer", "type": "percent", "value": 20, "minimumCents": 0, "minimumItems": 1, "status": "expired" }
+  ],
+  "products": [
+    { "id": "espresso", "name": "Espresso", "category": "coffee", "description": "A double shot. Chocolate notes, clean finish.", "priceCents": 300, "stock": 40, "profile": "espresso", "ingredients": ["espresso"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "americano", "name": "Americano", "category": "coffee", "description": "Double espresso, a little more room to linger.", "priceCents": 350, "stock": 35, "profile": "black-coffee", "ingredients": ["espresso", "water"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "latte", "name": "Latte", "category": "coffee", "description": "Espresso with your choice of milk.", "priceCents": 500, "stock": 30, "profile": "milk-coffee", "ingredients": ["espresso"], "allergens": [], "crossContact": ["milk", "tree nuts", "soy"], "vegan": true, "glutenFree": true },
+    { "id": "cappuccino", "name": "Cappuccino", "category": "coffee", "description": "Rich espresso with a light, foamy finish.", "priceCents": 450, "stock": 20, "profile": "milk-coffee", "ingredients": ["espresso"], "allergens": [], "crossContact": ["milk", "tree nuts", "soy"], "vegan": true, "glutenFree": true },
+    { "id": "flat-white", "name": "Flat white", "category": "coffee", "description": "A stronger coffee with a silky milk finish.", "priceCents": 475, "stock": 18, "profile": "milk-coffee", "ingredients": ["espresso"], "allergens": [], "crossContact": ["milk", "tree nuts", "soy"], "vegan": true, "glutenFree": true },
+    { "id": "mocha", "name": "Mocha", "category": "coffee", "description": "Dark cocoa, espresso, and your choice of milk.", "priceCents": 550, "stock": 16, "profile": "milk-coffee", "ingredients": ["espresso", "cocoa", "cane sugar"], "allergens": [], "crossContact": ["milk", "tree nuts", "soy"], "vegan": true, "glutenFree": true },
+    { "id": "vanilla-latte", "name": "Vanilla latte", "category": "coffee", "description": "Our latte with a touch of vanilla.", "priceCents": 550, "stock": 20, "profile": "milk-coffee", "ingredients": ["espresso", "vanilla syrup"], "allergens": [], "crossContact": ["milk", "tree nuts", "soy"], "vegan": true, "glutenFree": true },
+    { "id": "cold-brew", "name": "Cold brew", "category": "coffee", "description": "Slow-steeped overnight. Smooth, never bitter.", "priceCents": 450, "stock": 12, "profile": "cold-coffee", "ingredients": ["cold-brew coffee", "water"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "earl-grey", "name": "Earl Grey", "category": "tea", "description": "Black tea with fragrant bergamot.", "priceCents": 325, "stock": 24, "profile": "plain-tea", "ingredients": ["black tea", "bergamot", "water"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "green-tea", "name": "Green tea", "category": "tea", "description": "Delicate sencha with a fresh, grassy finish.", "priceCents": 325, "stock": 24, "profile": "plain-tea", "ingredients": ["sencha tea", "water"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "chai-latte", "name": "Chai latte", "category": "tea", "description": "Black tea, warming spices, and your choice of milk.", "priceCents": 500, "stock": 18, "profile": "milk-tea", "ingredients": ["black tea", "cinnamon", "cardamom", "ginger", "cane sugar"], "allergens": [], "crossContact": ["milk", "tree nuts", "soy"], "vegan": true, "glutenFree": true },
+    { "id": "matcha-latte", "name": "Matcha latte", "category": "tea", "description": "Stone-ground matcha, whisked to order.", "priceCents": 550, "stock": 14, "profile": "milk-tea", "ingredients": ["matcha", "water"], "allergens": [], "crossContact": ["milk", "tree nuts", "soy"], "vegan": true, "glutenFree": true },
+    { "id": "hibiscus-tea", "name": "Hibiscus iced tea", "category": "tea", "description": "Bright hibiscus, rosehip, and a squeeze of lemon.", "priceCents": 400, "stock": 15, "profile": "cold-drink", "ingredients": ["hibiscus", "rosehip", "lemon", "water"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "london-fog", "name": "London fog", "category": "tea", "description": "Earl Grey, vanilla, and cloud-soft milk.", "priceCents": 475, "stock": 16, "profile": "milk-tea", "ingredients": ["black tea", "bergamot", "vanilla syrup"], "allergens": [], "crossContact": ["milk", "tree nuts", "soy"], "vegan": true, "glutenFree": true },
+    { "id": "lemonade", "name": "House lemonade", "category": "cold-drinks", "description": "Fresh lemon, just enough sweetness.", "priceCents": 400, "stock": 18, "profile": "cold-drink", "ingredients": ["lemon", "cane sugar", "water"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "orange-juice", "name": "Orange juice", "category": "cold-drinks", "description": "Freshly squeezed, with a little pulp.", "priceCents": 450, "stock": 8, "profile": "cold-drink", "ingredients": ["orange juice"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "sparkling-water", "name": "Sparkling water", "category": "cold-drinks", "description": "Cold, crisp, and lightly sparkling.", "priceCents": 250, "stock": 30, "profile": "cold-drink", "ingredients": ["carbonated water"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "iced-chocolate", "name": "Iced chocolate", "category": "cold-drinks", "description": "Dark cocoa and your choice of milk, over ice.", "priceCents": 500, "stock": 14, "profile": "cold-milk", "ingredients": ["cocoa", "cane sugar"], "allergens": [], "crossContact": ["milk", "tree nuts", "soy"], "vegan": true, "glutenFree": true },
+    { "id": "butter-croissant", "name": "Butter croissant", "category": "bakery", "description": "Golden, flaky, and baked this morning.", "priceCents": 375, "stock": 12, "profile": "food", "ingredients": ["wheat flour", "butter", "milk", "yeast", "sugar", "egg wash"], "allergens": ["wheat", "milk", "egg"], "crossContact": ["tree nuts", "sesame"], "vegan": false, "glutenFree": false },
+    { "id": "almond-croissant", "name": "Almond croissant", "category": "bakery", "description": "Almond cream, toasted almonds, a dusting of sugar.", "priceCents": 475, "stock": 3, "profile": "food", "ingredients": ["wheat flour", "butter", "milk", "almonds", "egg", "sugar"], "allergens": ["wheat", "milk", "egg", "tree nuts"], "crossContact": ["sesame"], "vegan": false, "glutenFree": false },
+    { "id": "chocolate-croissant", "name": "Chocolate croissant", "category": "bakery", "description": "Buttery layers with a dark chocolate center.", "priceCents": 425, "stock": 9, "profile": "food", "ingredients": ["wheat flour", "butter", "milk", "dark chocolate", "soy lecithin", "egg wash"], "allergens": ["wheat", "milk", "soy", "egg"], "crossContact": ["tree nuts"], "vegan": false, "glutenFree": false },
+    { "id": "blueberry-muffin", "name": "Blueberry muffin", "category": "bakery", "description": "Blueberries in every bite, crisp sugar top.", "priceCents": 375, "stock": 10, "profile": "food", "ingredients": ["wheat flour", "blueberries", "milk", "egg", "butter", "sugar"], "allergens": ["wheat", "milk", "egg"], "crossContact": ["tree nuts"], "vegan": false, "glutenFree": false },
+    { "id": "lemon-cake", "name": "Lemon cake", "category": "bakery", "description": "A soft slice with a sharp lemon glaze.", "priceCents": 450, "stock": 8, "profile": "food", "ingredients": ["wheat flour", "lemon", "butter", "egg", "sugar"], "allergens": ["wheat", "milk", "egg"], "crossContact": ["tree nuts"], "vegan": false, "glutenFree": false },
+    { "id": "banana-bread", "name": "Banana bread", "category": "bakery", "description": "Ripe bananas, brown sugar, a hint of cinnamon.", "priceCents": 400, "stock": 7, "profile": "food", "ingredients": ["wheat flour", "banana", "sunflower oil", "brown sugar", "cinnamon"], "allergens": ["wheat"], "crossContact": ["milk", "egg", "tree nuts"], "vegan": true, "glutenFree": false },
+    { "id": "cinnamon-roll", "name": "Cinnamon roll", "category": "bakery", "description": "Soft spirals with cinnamon and cream-cheese icing.", "priceCents": 475, "stock": 0, "profile": "food", "ingredients": ["wheat flour", "butter", "milk", "cream cheese", "cinnamon", "sugar"], "allergens": ["wheat", "milk"], "crossContact": ["egg", "tree nuts"], "vegan": false, "glutenFree": false },
+    { "id": "chocolate-cookie", "name": "Chocolate chunk cookie", "category": "bakery", "description": "Dark chocolate, crisp edges, soft center.", "priceCents": 300, "stock": 16, "profile": "food", "ingredients": ["wheat flour", "dark chocolate", "coconut oil", "brown sugar", "soy lecithin"], "allergens": ["wheat", "soy"], "crossContact": ["milk", "egg", "tree nuts"], "vegan": true, "glutenFree": false },
+    { "id": "avocado-toast", "name": "Avocado toast", "category": "food", "description": "Sourdough, smashed avocado, lemon, chili flakes.", "priceCents": 850, "stock": 10, "profile": "food", "ingredients": ["sourdough wheat bread", "avocado", "lemon", "olive oil", "chili flakes"], "allergens": ["wheat"], "crossContact": ["sesame", "milk", "egg"], "vegan": true, "glutenFree": false },
+    { "id": "egg-sandwich", "name": "Egg & cheddar sandwich", "category": "food", "description": "Soft egg and aged cheddar on a toasted brioche.", "priceCents": 750, "stock": 8, "profile": "food", "ingredients": ["egg", "cheddar", "wheat flour", "butter", "milk", "arugula"], "allergens": ["egg", "milk", "wheat"], "crossContact": ["sesame"], "vegan": false, "glutenFree": false },
+    { "id": "hummus-toast", "name": "Hummus toast", "category": "food", "description": "Lemon hummus, cucumber, and herbs on sourdough.", "priceCents": 800, "stock": 7, "profile": "food", "ingredients": ["sourdough wheat bread", "chickpeas", "tahini", "lemon", "cucumber", "parsley"], "allergens": ["wheat", "sesame"], "crossContact": ["milk", "egg"], "vegan": true, "glutenFree": false },
+    { "id": "overnight-oats", "name": "Berry overnight oats", "category": "food", "description": "Oat milk, chia, and a generous spoon of berries.", "priceCents": 650, "stock": 6, "profile": "food", "ingredients": ["certified gluten-free oats", "certified gluten-free oat milk", "chia seeds", "blueberries", "maple syrup"], "allergens": [], "crossContact": ["tree nuts"], "vegan": true, "glutenFree": true },
+    { "id": "cortado", "name": "Cortado", "category": "coffee", "description": "Equal parts espresso and steamed milk in a short glass.", "priceCents": 475, "stock": 14, "profile": "milk-coffee", "ingredients": ["espresso"], "allergens": [], "crossContact": ["milk", "tree nuts", "soy"], "vegan": true, "glutenFree": true },
+    { "id": "honey-cinnamon-latte", "name": "Honey cinnamon latte", "category": "coffee", "description": "Espresso, steamed milk, honey, and a little cinnamon.", "priceCents": 575, "stock": 12, "profile": "milk-coffee", "ingredients": ["espresso", "honey", "cinnamon"], "allergens": [], "crossContact": ["milk", "tree nuts", "soy"], "vegan": false, "glutenFree": true },
+    { "id": "espresso-tonic", "name": "Espresso tonic", "category": "coffee", "description": "Bright espresso over chilled tonic water and ice.", "priceCents": 525, "stock": 10, "profile": "cold-coffee", "ingredients": ["espresso", "tonic water", "ice"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "peppermint-tea", "name": "Peppermint tea", "category": "tea", "description": "Caffeine-free peppermint leaves with a cool finish.", "priceCents": 325, "stock": 20, "profile": "plain-tea", "ingredients": ["peppermint", "water"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "strawberry-lemonade", "name": "Strawberry lemonade", "category": "cold-drinks", "description": "Fresh lemon, ripe strawberry, and sparkling water.", "priceCents": 475, "stock": 12, "profile": "cold-drink", "ingredients": ["lemon", "strawberry", "cane sugar", "sparkling water"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "ginger-kombucha", "name": "Ginger kombucha", "category": "cold-drinks", "description": "Small-batch kombucha with fresh ginger and citrus.", "priceCents": 500, "stock": 9, "profile": "cold-drink", "ingredients": ["fermented tea", "ginger", "lemon"], "allergens": [], "crossContact": [], "vegan": true, "glutenFree": true },
+    { "id": "cheddar-scone", "name": "Cheddar chive scone", "category": "bakery", "description": "Savory cheddar, chives, and flaky pastry.", "priceCents": 425, "stock": 8, "profile": "food", "ingredients": ["wheat flour", "cheddar", "butter", "milk", "chives", "egg"], "allergens": ["wheat", "milk", "egg"], "crossContact": ["tree nuts", "sesame"], "vegan": false, "glutenFree": false },
+    { "id": "seasonal-scone", "name": "Seasonal berry scone", "category": "bakery", "description": "Tender berry scone with a crisp sugar top.", "priceCents": 400, "stock": 7, "profile": "food", "ingredients": ["wheat flour", "berries", "butter", "milk", "sugar"], "allergens": ["wheat", "milk"], "crossContact": ["egg", "tree nuts"], "vegan": false, "glutenFree": false },
+    { "id": "breakfast-burrito", "name": "Breakfast burrito", "category": "food", "description": "Egg, black beans, potato, salsa, and cheddar in a warm tortilla.", "priceCents": 950, "stock": 8, "profile": "food", "ingredients": ["egg", "black beans", "potato", "salsa", "cheddar", "wheat tortilla"], "allergens": ["egg", "milk", "wheat"], "crossContact": ["sesame"], "vegan": false, "glutenFree": false },
+    { "id": "salmon-bagel", "name": "Smoked salmon bagel", "category": "food", "description": "Smoked salmon, cream cheese, cucumber, and dill on a bagel.", "priceCents": 1150, "stock": 5, "profile": "food", "ingredients": ["smoked salmon", "cream cheese", "wheat bagel", "cucumber", "dill"], "allergens": ["fish", "milk", "wheat"], "crossContact": ["sesame"], "vegan": false, "glutenFree": false }
+  ]
+}
