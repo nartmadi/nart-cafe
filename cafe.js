@@ -146,7 +146,7 @@ export function createCafe(source, { now = () => new Date() } = {}) {
       currency: data.currency, timezone: data.timezone, cartVersion: version,
       cart: { lines: cart, itemCount: cart.reduce((sum, line) => sum + line.quantity, 0), subtotalCents: subtotal, discountCode, discountCents: discount, totalCents: subtotal - discount },
       promotions: data.promotions.filter((entry) => entry.status === "active").map((entry) => ({ code: entry.code, description: entry.description, eligible: !eligibility(entry), reason: eligibility(entry) })),
-      pickupSlots: pickupSlots(), order: lastOrder,
+      order: lastOrder,
     });
   }
 
@@ -182,6 +182,19 @@ export function createCafe(source, { now = () => new Date() } = {}) {
   }
 
   const actions = {
+    get_pickup_slots(args) {
+      object(args, ["date", "after", "limit", "includeFull"]);
+      const date = args.date === undefined ? undefined : text(args.date, "Date", 10);
+      if (date !== undefined && (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isFinite(Date.parse(`${date}T12:00:00Z`)) || new Date(`${date}T12:00:00Z`).toISOString().slice(0, 10) !== date)) fail("INVALID_INPUT", "Date must be a valid YYYY-MM-DD date.");
+      const after = args.after === undefined ? undefined : text(args.after, "After slot ID", 16);
+      if (after !== undefined && (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(after) || !Number.isFinite(Date.parse(`${after}:00Z`)) || new Date(`${after}:00Z`).toISOString().slice(0, 16) !== after)) fail("INVALID_INPUT", "After must be a valid local YYYY-MM-DDTHH:mm cursor.");
+      if (args.includeFull !== undefined && typeof args.includeFull !== "boolean") fail("INVALID_INPUT", "includeFull must be a boolean.");
+      const limit = integer(args.limit ?? 8, "Limit", 1, 20);
+      const matches = pickupSlots().filter((slot) => (!date || slot.date === date) && (!after || slot.id > after) && (args.includeFull !== false || slot.remaining > 0));
+      const slots = matches.slice(0, limit);
+      const parts = localParts(now(), data.timezone);
+      return { ok: true, ...snapshot(), currentDate: `${parts.year}-${parts.month}-${parts.day}`, pickupSlots: slots, nextAfter: matches.length > limit ? slots.at(-1).id : null };
+    },
     search_menu(args) {
       object(args, ["query", "category", "dietary", "excludeAllergens", "excludeCrossContact", "temperature", "maxPriceCents", "quantity", "maxTotalCents", "inStockOnly"]);
       const query = text(args.query ?? "", "Query", 150, true).toLowerCase();
@@ -300,6 +313,7 @@ export function createCafe(source, { now = () => new Date() } = {}) {
   return {
     configure,
     snapshot,
+    pickupSlots,
     execute(name, args = {}) {
       if (!Object.hasOwn(actions, name)) fail("UNKNOWN_ACTION", "That action is not available.");
       return clone(actions[name](args));

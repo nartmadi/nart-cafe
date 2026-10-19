@@ -16,7 +16,7 @@ const options = {
 export const tools = [
   {
     name: "search_menu",
-    description: "Find café products and the lowest-priced configurations matching dietary needs, ingredients, temperature, and budget. Prices are tax-inclusive USD cents before discounts. Results include the current cart, public promotions, and dated pickup slots in America/Los_Angeles. Ingredient exclusions and cross-contact are separate.",
+    description: "Find café products and the lowest-priced configurations matching dietary needs, ingredients, temperature, and budget. Prices are tax-inclusive USD cents before discounts. Results include the current cart and public promotions. Use get_pickup_slots for pickup availability. Ingredient exclusions and cross-contact are separate.",
     annotations: { readOnlyHint: true },
     inputSchema: object({
       query: string("Words in the product name, description, or configured ingredients, e.g. iced latte or oat."),
@@ -39,7 +39,7 @@ export const tools = [
   },
   {
     name: "add_to_cart",
-    description: "Add one or several customized products to the order in one call. Validates all items atomically, merges identical configurations, and returns cart line IDs, exact totals, cartVersion, offers, and pickup slots. Nothing changes if any item is invalid.",
+    description: "Add one or several customized products to the order in one call. Validates all items atomically, merges identical configurations, and returns cart line IDs, exact totals, cartVersion, and offers. Use get_pickup_slots for pickup availability. Nothing changes if any item is invalid.",
     inputSchema: object({ items: { type: "array", minItems: 1, maxItems: 10, items: object({ productId: string("Product ID."), quantity: integer("Units to add; at most 10 per identical configuration in the cart.", 1, 10), options }, ["productId", "quantity"]) } }, ["items"]),
   },
   {
@@ -53,11 +53,22 @@ export const tools = [
     inputSchema: object({ code: string("Promotion code, case-insensitive.") }, ["code"]),
   },
   {
+    name: "get_pickup_slots",
+    description: "List dated pickup slots in America/Los_Angeles, ordered earliest first. Returns at most 8 slots by default (maximum 20), currentDate, and nextAfter for pagination. Filter by local YYYY-MM-DD date; use includeFull false for available slots only. Full slots have remaining 0. Pass nextAfter as after to fetch the next page. Read the latest cartVersion before scheduling.",
+    annotations: { readOnlyHint: true },
+    inputSchema: object({
+      date: string("Optional local date in YYYY-MM-DD format."),
+      after: string("Exclusive dated slot cursor returned as nextAfter. To start after a requested time, use YYYY-MM-DDTHH:mm."),
+      limit: integer("Maximum slots to return; default 8.", 1, 20),
+      includeFull: { type: "boolean", description: "Include full slots; default true." },
+    }),
+  },
+  {
     name: "schedule_pickup",
-    description: "Finalize the current order for pickup. Revalidates stock, the selected slot, and cartVersion before creating an order number and receipt. Use a slot ID returned in pickupSlots and the latest cartVersion. Repeating the same successful request returns the existing receipt without duplicating the order. Pay at pickup.",
+    description: "Finalize the current order for pickup. Revalidates stock, the selected slot, and cartVersion before creating an order number and receipt. Use a slot ID returned by get_pickup_slots and the latest cartVersion. Repeating the same successful request returns the existing receipt without duplicating the order. Pay at pickup.",
     annotations: { consequentialHint: true },
     inputSchema: object({
-      slotId: string("Exact dated pickup slot ID returned by search or cart responses; choose a slot with remaining > 0."),
+      slotId: string("Exact dated pickup slot ID returned by get_pickup_slots; choose a slot with remaining > 0."),
       customerName: string("Name for pickup, 1–80 characters."),
       cartVersion: integer("Latest cartVersion returned after the last cart or discount change.", 0, Number.MAX_SAFE_INTEGER),
     }, ["slotId", "customerName", "cartVersion"]),
@@ -70,7 +81,10 @@ export async function registerTools(execute) {
   if (typeof context?.registerTool !== "function") return;
   for (const definition of tools) {
     try {
-      await context.registerTool({ ...definition, execute: (args) => execute(definition.name, args) });
+      await context.registerTool({ ...definition, execute: async (args) => {
+        try { return await execute(definition.name, args); }
+        catch (error) { return { ok: false, code: error?.code ?? "TOOL_ERROR", error: error instanceof Error ? error.message : String(error) }; }
+      } });
     } catch (error) {
       console.error(`Could not register ${definition.name}.`, error);
     }

@@ -36,7 +36,7 @@ function execute(name, args = {}) {
       renderMenu();
     } else if (name === "get_product") {
       openProduct(result.product);
-    } else {
+    } else if (name !== "get_pickup_slots") {
       results = cafe.execute("search_menu", filters).products;
       renderMenu();
       if (name === "add_to_cart" || name === "update_cart") {
@@ -87,7 +87,8 @@ function renderMenu() {
 function renderCart(snapshot = cafe.snapshot()) {
   const active = document.activeElement;
   const focusKey = active?.dataset.focus;
-  const { cart, pickupSlots, promotions, order } = snapshot;
+  const { cart, promotions, order } = snapshot;
+  const pickupSlots = cafe.pickupSlots();
   if ($("cart-count")) $("cart-count").textContent = cart.itemCount;
   $("cart-empty").hidden = cart.lines.length > 0 || Boolean(order);
   $("cart-summary").hidden = !cart.lines.length;
